@@ -58,7 +58,7 @@ function App() {
   }
 
   function deleteNote(id) {
-    fetch(`/api/notes/${id}`, {
+    fetch(`/api/${id}`, {
       method: 'DELETE',
     })
       .then(() => {

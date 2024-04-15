@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Note from "./Note";
-import notes from "../notes";
+//import notes from "../notes";
 
 function App() {
   const [noteInput, setNoteInput] = useState({
@@ -10,7 +10,13 @@ function App() {
     content: "",
   });
 
-  const [allNotes, setAllNotes] = useState(notes);
+  const [allNotes, setAllNotes] = useState([]); // used to be notes
+
+  useEffect(() => {
+    fetch('/api')
+      .then(response => response.json())
+      .then(data => setAllNotes(data));
+  }, []);
 
   function handleChange(event) {
     const { value, name } = event.target;
@@ -31,14 +37,18 @@ function App() {
 
   function addNote(event) {
     event.preventDefault();
-    setAllNotes((prevNotes) => {
-      const newNote = {
-        key: Date.now(),
-        id: Date.now(),
-        title: noteInput.title,
-        content: noteInput.content,
-      };
-      return prevNotes.concat(newNote);
+    fetch('/api', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(noteInput),
+    })
+    .then(response => response.json())
+    .then (newNote => {
+      setAllNotes(prevNotes => {
+        return [...prevNotes, newNote];
+      });
     });
 
     setNoteInput({
@@ -48,16 +58,19 @@ function App() {
   }
 
   function deleteNote(id) {
-    setAllNotes((prevNotes) => {
-      return prevNotes.filter((note) => note.id !== id);
-    });
+    fetch(`/api/notes/${id}`, {
+      method: 'DELETE',
+    })
+      .then(() => {
+        setAllNotes(prevNotes => prevNotes.filter(note => note._id !== id));
+      });
   }
 
   function createNote(note) {
     return (
       <Note
-        key={note.key}
-        id={note.key}
+        key={note._id}
+        id={note._id}
         title={note.title}
         content={note.content}
         onDelete={deleteNote}

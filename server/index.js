@@ -9,8 +9,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 
-const uri = 'mongodb+srv://spongebob:5Om5unxDmqyRioRj@keeper.viyupku.mongodb.' +
-'net/?retryWrites=true&w=majority&appName=Keeper';
+const uri = 'mongodb+srv://spongebob:5Om5unxDmqyRioRj@keeper.viyupku.mongodb.net/Keeper?retryWrites=true&w=majority';
 mongoose.connect(uri);
 
 const noteSchema = new mongoose.Schema({

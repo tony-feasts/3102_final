@@ -32,7 +32,7 @@ app.post('/api', async (req, res) => {
 });
 
 app.delete('/api/:id', async (req, res) => {
-  await Note.findByIdAndRemove(req.params.id);
+  await Note.findByIdAndDelete(req.params.id);
   res.status(204).send();
 });
 

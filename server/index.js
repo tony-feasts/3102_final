@@ -13,6 +13,7 @@ const uri = 'mongodb+srv://spongebob:5Om5unxDmqyRioRj@keeper.viyupku.mongodb.net
 mongoose.connect(uri);
 
 const noteSchema = new mongoose.Schema({
+  userId: { type: String, required: true },
   title: String,
   content: String,
 });
@@ -20,13 +21,12 @@ const noteSchema = new mongoose.Schema({
 const Note = mongoose.model('Note', noteSchema);
 
 app.get('/api', async (req, res) => {
-  const notes = await Note.find();
+  const notes = await Note.find({ userId: req.userId });
   res.json(notes);
 });
 
 app.post('/api', async (req, res) => {
-  const { title, content } = req.body;
-  const newNote = new Note({ title, content });
+  const newNote = new Note(req.body);
   await newNote.save();
   res.status(201).json(newNote);
 });

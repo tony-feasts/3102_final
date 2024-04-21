@@ -9,7 +9,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 
-const uri = 'mongodb+srv://spongebob:5Om5unxDmqyRioRj@keeper.viyupku.mongodb.net/Keeper?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://spongebob:5Om5unxDmqyRioRj' +
+'@keeper.viyupku.mongodb.net/Keeper?retryWrites=true&w=majority';
 mongoose.connect(uri);
 
 const noteSchema = new mongoose.Schema({
@@ -21,7 +22,7 @@ const noteSchema = new mongoose.Schema({
 const Note = mongoose.model('Note', noteSchema);
 
 app.get('/api', async (req, res) => {
-  const notes = await Note.find({ userId: req.userId });
+  const notes = await Note.find({ userId: req.query.userId });
   res.json(notes);
 });
 

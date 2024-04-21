@@ -6,6 +6,8 @@ import { signUp, signIn, onAuthChange, signOutUser } from '../authService';
 
 function App() {
 
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || '';
+
   const [user, setUser] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,7 +21,7 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      fetch('/api')
+      fetch(`${backendUrl}/api?userId=${encodeURIComponent(user.uid)}`)
       .then(response => response.json())
       .then(setAllNotes);
     }
@@ -28,11 +30,11 @@ function App() {
   function handleAuth(email, password) {
     signIn(email, password)
       .then(data => {
-        setUser({ token: data.token });
+        setUser({ uid: data.user.uid });
       })
       .catch(() => {
         signUp(email, password)
-          .then(data => setUser({ token: data.token, uid: data.user.uid }));
+          .then(data => setUser({ uid: data.user.uid }));
           });
   }
 
@@ -53,7 +55,7 @@ function App() {
   function addNote(event) {
     event.preventDefault();
     if (user) {
-      fetch('/api', {
+      fetch(`${backendUrl}/api`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -70,7 +72,7 @@ function App() {
 
 
   function deleteNote(id) {
-    fetch(`/api/${id}`, { method: 'DELETE' })
+    fetch(`${backendUrl}/api/${id}`, { method: 'DELETE' })
       .then(() => {
         setAllNotes(prevNotes => prevNotes.filter(note => note._id !== id));
       });
@@ -110,7 +112,8 @@ function App() {
             <button onClick={addNote}>Add</button>
           </form>
           {allNotes.map(createNote)}
-          <button onClick={handleLogout}>Log Out</button>
+          <button onClick={handleLogout}
+            className="logout-button">Log Out</button>
           <Footer />
         </div>
       ) : (

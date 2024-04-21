@@ -36,6 +36,7 @@ footer p {
   color: #ccc;
 }
 .note {
+  position: relative;
   background: #fff;
   border-radius: 7px;
   box-shadow: 0 2px 5px #ccc;
@@ -56,16 +57,41 @@ footer p {
 }
 
 .note button {
-  position: relative;
-  float: right;
-  margin-right: 10px;
-  color: #f5ba13;
+  background: #f44336; 
+  color: white;
   border: none;
-  width: 36px;
-  height: 36px;
+  border-radius: 50%;
+  width: 24px; 
+  height: 24px; 
   cursor: pointer;
   outline: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 12px; 
+  position: absolute; 
+  top: 10px; 
+  right: 10px; 
 }
+
+.note button:hover {
+  background: #d32f2f; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.note button:active {
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+  transform: translateY(1px);
+}
+
+.note button::before {
+  color: white;
+}
+
+
 
 form {
   position: relative;
@@ -99,4 +125,20 @@ form button {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   outline: none;
+}
+
+
+.logout-button {
+  position: fixed; 
+  top: 16px; 
+  right: 16px; 
+  padding: 8px 16px; 
+  background-color: #f57513; 
+  color: #fff; 
+  border: none; 
+  border-radius: 4px; 
+  cursor: pointer;
+  font-family: "Montserrat", sans-serif; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+  z-index: 1000; 
 }

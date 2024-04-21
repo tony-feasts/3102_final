@@ -69,4 +69,6 @@ Key Developments:
 13. imported server directory from github to glitch
 14. added a start script to package.json in server
 15. made the server listen on port env variable
-16. added backend url env varible to server
+16. added backend url env varible to client
+17. installed glitch dependencies (body parser and then npm install)
+18. added engine to server package.json so glitch works

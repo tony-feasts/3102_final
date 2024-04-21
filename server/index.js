@@ -37,7 +37,7 @@ app.delete('/api/:id', async (req, res) => {
   res.status(204).send();
 });
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
